@@ -9,9 +9,9 @@ namespace WPFChat
     /// <summary>
     /// Грустный клиент
     /// </summary>
-    class Client
+    public class Client
     {
-        //Для особенных
-        //Заебал
+        public string Name { get; set; }
+
     }
 }
