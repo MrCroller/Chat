@@ -20,8 +20,8 @@ namespace WPFChat
     /// </summary>
     public partial class ConnectWindow : Window
     {
-        int ip;
-        int port;
+        string ip;
+        string port;
         bool flag_ad; // Флажок успешно ли приобразование
         int ch = 0; // Счетчик попыток
 
@@ -51,7 +51,7 @@ namespace WPFChat
             if (!flag_ad && ch == 5) 
             {   
                 MessageBox.Show("Поздравляю, вы подключились!");
-                System.Threading.Thread.Sleep(2500);
+                System.Threading.Thread.Sleep(2000);
                 MessageBox.Show("Шучу");
             }
             if (!flag_ad && ch == 6) MessageBox.Show("Все, я отстаю");
@@ -73,17 +73,16 @@ namespace WPFChat
         /// </summary>
         /// <param name="adress">Адрес</param>
         /// <returns></returns>
-        private void ConnectAdress(string adress)
+        private void ConnectAdress(string s)
         {
-            Regex R_ip_port = new Regex(@"(\d{1,3}[\.]){3}\d{1,3}[:]\d{4}"); // регулярка для адреса
-            Regex R_ip = new Regex(@"(\d{1,3}[\.]){3}\d{1,3}"); // регулярка для ip
-            Regex R_port = new Regex(@"\d{4}"); // регулярка для порта
+            Regex Regex = new Regex(@"^(?<ip>(\d{1,3}.){3}\d{1,3})(:(?<port>\d{4,5}))?$"); // регулярка для адреса
 
-            if (R_ip_port.IsMatch(adress)) // Проверка адреса
+            if (Regex.IsMatch(s)) // Проверка адреса
             {
                 flag_ad = true;
-                //ip = Convert.ToInt32(R_ip.Match(adress)); // тут нужно нормально сконвертировать, а то хуйня
-                //port = Convert.ToInt32(R_port.Match(adress));
+                var address = Regex.Match(s);
+                ip = address.Groups["ip"].Value; // Значения ip
+                port = address.Groups["port"].Value; // Значение порта
             }
             else
             {
