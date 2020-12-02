@@ -11,16 +11,16 @@ namespace client
 
         static void Main(string[] args)
         {
-            //IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080);
+            Console.Title = "Client";
             try
             {
                 SocClient.Connect("127.0.0.1", 8080);
                 Console.WriteLine("connected");
-                SendMsg();
 
                 while (true)
                 {
-                    ResiveMsg();
+                    SendMsg();
+                    //ResiveMsg();
                     System.Threading.Thread.Sleep(100);
                 }
             }
@@ -44,7 +44,7 @@ namespace client
             byte[] buffer = new byte[1024];
             SocClient.Receive(buffer);
             Console.WriteLine(Encoding.UTF8.GetString(buffer));
-            if (buffer != null) SendMsg();
+            SendMsg();
         }
     }
 }

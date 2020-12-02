@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Text.RegularExpressions;
 
 namespace WPFChat
 {
@@ -48,8 +36,8 @@ namespace WPFChat
             if (!flag_ad && ch == 2) MessageBox.Show("Может попробуешь еще раз?");
             if (!flag_ad && ch == 3) MessageBox.Show("У тебя почти получилось");
             if (!flag_ad && ch == 4) MessageBox.Show("Ты главное не сдавайся");
-            if (!flag_ad && ch == 5) 
-            {   
+            if (!flag_ad && ch == 5)
+            {
                 MessageBox.Show("Поздравляю, вы подключились!");
                 System.Threading.Thread.Sleep(2000);
                 MessageBox.Show("Шучу");
