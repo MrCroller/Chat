@@ -11,7 +11,7 @@ namespace server
         {
             Console.Title = "Server";
             Socket SocServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080);
+            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("26.212.64.12"), 8080);
             try
             {
                 SocServer.Bind(ipPoint);

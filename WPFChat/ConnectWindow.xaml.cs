@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace WPFChat
@@ -8,9 +10,11 @@ namespace WPFChat
     /// </summary>
     public partial class ConnectWindow : Window
     {
+        public static Socket SocClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         public static Client Me = new Client();
-        string ip;
-        string port;
+        string host;
+        string Cnsl;
+        int port;
         bool flag_ad; // Флажок успешно ли приобразование
         int ch = 0; // Счетчик попыток
 
@@ -28,7 +32,7 @@ namespace WPFChat
         {
             Me.Name = Name_TextBox.Text;
 
-            ConnectAdress(Ip_Port_TextBox.Text);
+            ChekAddress(Ip_Port_TextBox.Text);
 
             if (!flag_ad && (ch == 1 || (ch > 6 && ch < 11) || ch > 11)) MessageBox.Show("Введен неккорректный адрес");
 
@@ -49,11 +53,7 @@ namespace WPFChat
 
             if (flag_ad) // открытие окна чата
             {
-                ButtonConnect.IsEnabled = false;
-                var Chat = new MainWindow();
-                Chat.Show();
-
-                ConnectWnd.Close(); // закрытие окна входа
+                ConnectAddress();
             }
         }
 
@@ -62,7 +62,7 @@ namespace WPFChat
         /// </summary>
         /// <param name="adress">Адрес</param>
         /// <returns></returns>
-        private void ConnectAdress(string s)
+        private void ChekAddress(string s)
         {
             Regex Regex = new Regex(@"^(?<ip>(\d{1,3}.){3}\d{1,3})(:(?<port>\d{4,5}))?$"); // регулярка для адреса
 
@@ -70,13 +70,36 @@ namespace WPFChat
             {
                 flag_ad = true;
                 var address = Regex.Match(s);
-                ip = address.Groups["ip"].Value; // Значения ip
-                port = address.Groups["port"].Value; // Значение порта
+                host = address.Groups["ip"].Value; // Значения ip
+                port = Int32.Parse(address.Groups["port"].Value); // Значение порта
             }
             else
             {
                 ch++;
                 flag_ad = false;
+            }
+        }
+
+        /// <summary>
+        /// Подключение
+        /// </summary>
+        private void ConnectAddress()
+        {
+            try
+            {
+                ButtonConnect.IsEnabled = false;
+                SocClient.Connect(host,port);
+
+                var Chat = new MainWindow();
+                Chat.Show();
+
+                ConnectWnd.Close(); // закрытие окна входа
+            }
+            catch (Exception ex)
+            {
+                ButtonConnect.IsEnabled = true;
+                Cnsl += $"{DateTime.UtcNow.ToString("HH:mm:ss")}: {ex.Message}\n";
+                CslBox.Text = Cnsl;
             }
         }
     }

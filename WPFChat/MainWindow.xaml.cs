@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -52,6 +55,8 @@ namespace WPFChat
         private void SendMsg(string msg, Client cl)
         {
             string msg_en = $"{cl.Name}: {msg}";
+            byte[] buffer = Encoding.UTF8.GetBytes(msg_en);
+            ConnectWindow.SocClient.Send(buffer);
             Chat_ListBox.Items.Add(msg_en);
             MsgBox.Text = string.Empty;
         }
@@ -63,6 +68,8 @@ namespace WPFChat
         /// <param name="e"></param>
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
+            ConnectWindow.SocClient.Close();
+            //ConnectWindow.SocClient.Disconnect(чездесь??);
             var Cnct = new ConnectWindow();
             Cnct.Show();
             Chat.Close();
