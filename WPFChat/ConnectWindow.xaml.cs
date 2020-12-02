@@ -49,6 +49,7 @@ namespace WPFChat
 
             if (flag_ad) // открытие окна чата
             {
+                ButtonConnect.IsEnabled = false;
                 var Chat = new MainWindow();
                 Chat.Show();
 

@@ -7,9 +7,15 @@
         mc:Ignorable="d"
         Title="Connect" Height="150" Width="400">
     <Grid>
-        <TextBox x:Name="Name_TextBox" HorizontalAlignment="Left" Height="22" Margin="25,29,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1" MaxLength="8"/>
-        <TextBox x:Name="Ip_Port_TextBox" HorizontalAlignment="Left" Height="23" Margin="25,67,0,0" TextWrapping="Wrap" Text="192.168.1.1:5050" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1"/>
-        <Button x:Name="ConnectBut" Content="Connect" HorizontalAlignment="Left" Margin="225.423,67,0,0" VerticalAlignment="Top" Width="75" Height="23" Background="#FFECECEC" Click="Button_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="153*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="Name_TextBox" HorizontalAlignment="Left" Height="22" Margin="2,34,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1" MaxLength="8" FontSize="14" TextAlignment="Center" Grid.Column="1"/>
+        <TextBox x:Name="Ip_Port_TextBox" HorizontalAlignment="Left" Height="24" Margin="2,66,0,0" TextWrapping="Wrap" Text="127.0.0.1:8080" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1" FontSize="14" TextAlignment="Center" Grid.Column="1"/>
+        <Button x:Name="ButtonConnect" Content="Connect" HorizontalAlignment="Left" Margin="172,65,0,0" VerticalAlignment="Top" Width="75" Height="24" Background="#FFECECEC" Click="Button_Click" FontWeight="Bold" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,35,0,0" TextWrapping="Wrap" Text="Nickname:" VerticalAlignment="Top" FontSize="14" Height="19" Width="65"/>
+        <TextBlock HorizontalAlignment="Left" Margin="22,67,0,0" TextWrapping="Wrap" Text="Address:" VerticalAlignment="Top" FontSize="14" Height="19" Width="53"/>
 
     </Grid>
 </Window>
