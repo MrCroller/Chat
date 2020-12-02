@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace WPFChat
 {
     /// <summary>
     /// Грустный клиент
     /// </summary>
-    class Client
+    public class Client
     {
-        //Для особенных
-        //Заебал
+        public int ID { get; set; }
+
+        public string Name { get; set; }
+
     }
 }
