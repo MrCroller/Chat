@@ -95,6 +95,9 @@ namespace WPFChat
         }
 
 
+        /// <summary>
+        /// Метод гачи
+        /// </summary>
         private async void Gachi()
         {
             if (!bot_flag)
