@@ -29,15 +29,6 @@ namespace server
                     byte[] buffer2 = Encoding.UTF8.GetBytes(response);
                     client.Send(buffer2);
                 }
-                //Socket client = server.Accept();
-                //byte[] buffer = new byte[1024];
-                //client.Receive(buffer);
-                //Console.WriteLine(Encoding.UTF8.GetString(buffer));
-                //Console.WriteLine("напиши ответ");
-                //string message = Console.ReadLine();
-                //byte[] buffer2 = Encoding.UTF8.GetBytes(message);
-                //client.Send(buffer2);
-                //Console.ReadLine();
             }
             catch (Exception ex)
             {

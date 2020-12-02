@@ -1,47 +1,50 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace client
 {
     class client
     {
+        static Socket SocClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        static bool flag = false;
+
         static void Main(string[] args)
         {
-            Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             //IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080);
             try
             {
-                client.Connect("127.0.0.1", 8080);
+                SocClient.Connect("127.0.0.1", 8080);
                 Console.WriteLine("connected");
+                SendMsg();
+
                 while (true)
                 {
-                    Console.WriteLine("message:");
-                    string message = Console.ReadLine();
-                    byte[] buffer = Encoding.UTF8.GetBytes(message);
-                    client.Send(buffer);
-                    message = null;
-
-                    byte[] buffer2 = new byte[1024];
-                    client.Receive(buffer2);
-                    Console.WriteLine(Encoding.UTF8.GetString(buffer2));
+                    ResiveMsg();
+                    System.Threading.Thread.Sleep(100);
                 }
-                //string message = "hi server";
-                //byte[] buffer = Encoding.UTF8.GetBytes(message);
-                //client.Send(buffer);
-
-                //byte[] buffer2 = new byte[1024];
-                //client.Receive(buffer2);
-                //Console.WriteLine(Encoding.UTF8.GetString(buffer2));
-                //Console.ReadLine();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
             }
+        }
+
+        static void SendMsg()
+        {
+            Console.WriteLine("\nmessage:");
+            string message = Console.ReadLine();
+            byte[] buffer = Encoding.UTF8.GetBytes(message);
+            SocClient.Send(buffer);
+        }
+
+        static void ResiveMsg()
+        {
+            byte[] buffer = new byte[1024];
+            SocClient.Receive(buffer);
+            Console.WriteLine(Encoding.UTF8.GetString(buffer));
+            if (buffer != null) SendMsg();
         }
     }
 }
