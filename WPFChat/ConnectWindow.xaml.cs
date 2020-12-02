@@ -20,6 +20,7 @@ namespace WPFChat
     /// </summary>
     public partial class ConnectWindow : Window
     {
+        public static Client Me = new Client();
         string ip;
         string port;
         bool flag_ad; // Флажок успешно ли приобразование
@@ -37,8 +38,7 @@ namespace WPFChat
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Client Pup = new Client();
-            Pup.Name = Name_TextBox.Text;
+            Me.Name = Name_TextBox.Text;
 
             ConnectAdress(Ip_Port_TextBox.Text);
 
@@ -61,10 +61,10 @@ namespace WPFChat
 
             if (flag_ad) // открытие окна чата
             {
-                MainWindow Chat = new MainWindow();
+                var Chat = new MainWindow();
                 Chat.Show();
 
-                ConnectWindow1.Close(); // закрытие окна входа
+                ConnectWnd.Close(); // закрытие окна входа
             }
         }
 
