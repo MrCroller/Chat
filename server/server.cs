@@ -7,18 +7,16 @@ namespace server
 {
     class server
     {
-        static Socket SocServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        static IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080);
-
         static void Main(string[] args)
         {
             Console.Title = "Server";
+            Socket SocServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080);
             try
             {
                 SocServer.Bind(ipPoint);
-                SocServer.Listen(5);
                 Console.WriteLine("server started...");
-
+                SocServer.Listen(5);
                 Socket client = SocServer.Accept();
                 Console.WriteLine("Новое подключение.");
 
