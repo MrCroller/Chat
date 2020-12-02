@@ -9,7 +9,7 @@
     <Grid>
         <TextBox x:Name="Name_TextBox" HorizontalAlignment="Left" Height="22" Margin="25,29,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1" MaxLength="8"/>
         <TextBox x:Name="Ip_Port_TextBox" HorizontalAlignment="Left" Height="23" Margin="25,67,0,0" TextWrapping="Wrap" Text="192.168.1.1:5050" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1"/>
-        <Button x:Name="ConnectBut" Content="Connect" HorizontalAlignment="Left" Margin="225.423,67,0,0" VerticalAlignment="Top" Width="75" Height="23" Background="#FFECECEC" Click="Button_Click"/>
+        <Button Content="Ввести" HorizontalAlignment="Left" Margin="225.423,67,0,0" VerticalAlignment="Top" Width="75" Height="23" Background="#FFECECEC" Click="Button_Click"/>
 
     </Grid>
 </Window>
