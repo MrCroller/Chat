@@ -5,17 +5,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFChat"
         mc:Ignorable="d"
-        Title="Connect" Height="150" Width="400">
-    <Grid>
+        Title="Connect" Height="150" Width="400" Background="#FF1A1A32" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="Resources/icon_Alpha.png">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border 
+                            Name="Border" 
+                            CornerRadius="0" 
+                            BorderThickness="1" 
+                            Background="#FF1A1A32">
+                            <ContentPresenter 
+                                Margin="2" 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" 
+                                RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard Name="MouseEnter">
+                                    <Storyboard >
+                                        <ColorAnimation
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                            AutoReverse="False"
+                                            To="#FF292951"
+                                            Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard Name="MouseLeave">
+                                    <Storyboard >
+                                        <ColorAnimation
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                            AutoReverse="False"
+                                            To="#FF1A1A32"
+                                            Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#FF1A1A32" HorizontalAlignment="Center" VerticalAlignment="Center" Height="121" Margin="10,0,4,0" Width="380">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="43*"/>
-            <ColumnDefinition Width="153*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="Name_TextBox" HorizontalAlignment="Left" Height="22" Margin="2,34,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1" MaxLength="8" FontSize="14" TextAlignment="Center" Grid.Column="1"/>
-        <TextBox x:Name="Ip_Port_TextBox" HorizontalAlignment="Left" Height="24" Margin="2,66,0,0" TextWrapping="Wrap" Text="127.0.0.1:8080" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1" FontSize="14" TextAlignment="Center" Grid.Column="1"/>
-        <Button x:Name="ButtonConnect" Content="Connect" HorizontalAlignment="Left" Margin="172,65,0,0" VerticalAlignment="Top" Width="75" Height="24" Background="#FFECECEC" Click="Button_Click" FontWeight="Bold" Grid.Column="1"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,35,0,0" TextWrapping="Wrap" Text="Nickname:" VerticalAlignment="Top" FontSize="14" Height="19" Width="65"/>
-        <TextBlock HorizontalAlignment="Left" Margin="22,67,0,0" TextWrapping="Wrap" Text="Address:" VerticalAlignment="Top" FontSize="14" Height="19" Width="53"/>
+        <TextBox x:Name="Name_TextBox" HorizontalAlignment="Left" Height="35" Margin="94,19,0,0" TextWrapping="Wrap"
+                 Text="Name" VerticalAlignment="Top" Width="175" AutoWordSelection="True" MaxLines="1" MaxLength="8" FontSize="14"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                 Background="#FF101032" Foreground="White" SelectionBrush="{x:Null}" BorderBrush="#FF27354D" TextAlignment="Center"/>
+        <TextBox x:Name="Ip_Port_TextBox" HorizontalAlignment="Left" Height="35" Margin="94,76,0,0" TextWrapping="Wrap"
+                 Text="127.0.0.1:8080" VerticalAlignment="Top" Width="175" AutoWordSelection="True" MaxLines="1" FontSize="14"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                 BorderBrush="#FF27354D" Background="#FF101032" Foreground="White" TextAlignment="Center"/>
+        <Button x:Name="ButtonConnect" Content="Connect" Margin="294,76,10,10" Click="Button_Click" BorderBrush="#FF31315F" Background="{x:Null}" 
+                FontFamily="Segoe UI Symbol" Foreground="#FF61EDF3" FontSize="16" IsDefault="True"/>
+        <TextBlock HorizontalAlignment="Left" Margin="7,25,0,0" TextWrapping="Wrap" Text="Nickname:" VerticalAlignment="Top" FontSize="14" Height="23" Width="74" Foreground="#FFF9F9F9"/>
+        <TextBlock HorizontalAlignment="Left" Margin="21,83,0,0" TextWrapping="Wrap" Text="Address:" VerticalAlignment="Top" FontSize="14" Height="23" Width="60" Foreground="White"/>
 
     </Grid>
 </Window>

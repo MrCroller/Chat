@@ -5,21 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFChat"
         mc:Ignorable="d"
-        Title="Chat" Height="450" Width="800" Icon="Resources/icon_Alpha.png">
-    <Grid>
+        Title="Chat" Height="450" Width="800" Icon="Resources/icon.png">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border 
+                            Name="Border" 
+                            CornerRadius="0" 
+                            BorderThickness="1" 
+                            Background="#FF1A1A32">
+                            <ContentPresenter 
+                                Margin="2" 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" 
+                                RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard Name="MouseEnter">
+                                    <Storyboard >
+                                        <ColorAnimation
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                            AutoReverse="False"
+                                            To="#FF292951"
+                                            Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard Name="MouseLeave">
+                                    <Storyboard >
+                                        <ColorAnimation
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                            AutoReverse="False"
+                                            To="#FF1A1A32"
+                                            Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#FF1A1A32">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="139*"/>
             <ColumnDefinition Width="59*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="Chat_ListBox" HorizontalAlignment="Left" Height="348" Margin="10,10,0,0" VerticalAlignment="Top" Width="606" FontSize="14" Grid.ColumnSpan="2" SelectionMode="Extended"/>
+        <ListBox x:Name="Chat_ListBox" HorizontalAlignment="Left" Height="348" Margin="10,10,0,0" VerticalAlignment="Top" Width="606" FontSize="14" Grid.ColumnSpan="2" SelectionMode="Extended" Foreground="White" BorderBrush="{x:Null}" Background="#FF101032"/>
         <ListBox x:Name="Client_ListBox" 
                  ItemsSource="{Binding ClName, UpdateSourceTrigger=PropertyChanged}"
-                 HorizontalAlignment="Left" Height="204" Margin="76,10,0,0" VerticalAlignment="Top" Width="145" Grid.Column="1"/>
-        <TextBox x:Name="MsgBox" HorizontalAlignment="Left" Height="25" Margin="10,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="606" FontSize="14" Grid.ColumnSpan="2" SpellCheck.IsEnabled="True" KeyDown="MsgBox_KeyDown"/>
-        <Button x:Name="Enter" Content="Отправить" HorizontalAlignment="Left" Height="25" Margin="76,376,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="Enter_Click"/>
+                 HorizontalAlignment="Left" Height="204" Margin="76,10,0,0" VerticalAlignment="Top" Width="145" Grid.Column="1" Background="#FF101032" Foreground="White" BorderBrush="#FF27354D"/>
+        <TextBox x:Name="MsgBox" HorizontalAlignment="Left" Height="25" Margin="10,376,0,0" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="606" FontSize="14" Grid.ColumnSpan="2" SpellCheck.IsEnabled="True"
+                 VerticalContentAlignment="Center"
+                 KeyDown="MsgBox_KeyDown" Background="#FF101032" Foreground="White" BorderBrush="{x:Null}"/>
         <Button x:Name="Disconnect" Content="Disconnect"
-                Grid.Column="1" HorizontalAlignment="Left" Margin="109,236,0,0" 
-                VerticalAlignment="Top" Width="79" Click="Disconnect_Click" Height="25" FontSize="14"/>
-
+                Grid.Column="1" HorizontalAlignment="Left" Margin="96,233,0,0" 
+                VerticalAlignment="Top" Width="100"
+                Click="Disconnect_Click" 
+                Height="30" FontSize="16" Foreground="White" BorderBrush="{x:Null}" BorderThickness="1"/>
+        <Button x:Name="Enter" Content="Enter"
+            Grid.Column="1" HorizontalAlignment="Left" Margin="76,374,0,0" 
+            VerticalAlignment="Top" Width="100"
+            Click="Enter_Click" 
+            Height="31" FontSize="16" Foreground="White" BorderBrush="{x:Null}" BorderThickness="1"/>
     </Grid>
+
 </Window>
