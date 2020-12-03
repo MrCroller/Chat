@@ -5,11 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFChat"
         mc:Ignorable="d"
-        Title="Connect" Height="150" Width="400">
+        Title="Connect" Height="250" Width="400" ResizeMode="NoResize" Icon="Resources/icon_Alpha.png">
     <Grid>
-        <TextBox x:Name="Name_TextBox" HorizontalAlignment="Left" Height="22" Margin="25,29,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1" MaxLength="8"/>
-        <TextBox x:Name="Ip_Port_TextBox" HorizontalAlignment="Left" Height="23" Margin="25,67,0,0" TextWrapping="Wrap" Text="192.168.1.1:5050" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1"/>
-        <Button x:Name="ConnectBut" Content="Connect" HorizontalAlignment="Left" Margin="225.423,67,0,0" VerticalAlignment="Top" Width="75" Height="23" Background="#FFECECEC" Click="Button_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="153*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="Name_TextBox" HorizontalAlignment="Left" Height="22" Margin="24,18,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1" MaxLength="8" FontSize="14" TextAlignment="Center" Grid.Column="1"/>
+        <TextBox x:Name="Ip_Port_TextBox" HorizontalAlignment="Left" Height="24" Margin="24,50,0,0" TextWrapping="Wrap" Text="26.212.64.12:8080" VerticalAlignment="Top" Width="145" AutoWordSelection="True" MaxLines="1" FontSize="14" TextAlignment="Center" Grid.Column="1"/>
+        <Button x:Name="ButtonConnect" Content="Connect" HorizontalAlignment="Left" Margin="194,49,0,0" VerticalAlignment="Top" Width="75" Height="24" Background="#FFECECEC" Click="Button_Click" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="32,19,0,0" TextWrapping="Wrap" Text="Nickname:" VerticalAlignment="Top" FontSize="14" Height="19" Width="65" Grid.ColumnSpan="2"/>
+        <TextBlock HorizontalAlignment="Left" Margin="44,51,0,0" TextWrapping="Wrap" Text="Address:" VerticalAlignment="Top" FontSize="14" Height="19" Width="53" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="CslBox"
+                 HorizontalAlignment="Left"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 Height="108" Margin="10,91,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="362" FontSize="10" Grid.ColumnSpan="2" IsReadOnly="True"/>
 
     </Grid>
 </Window>

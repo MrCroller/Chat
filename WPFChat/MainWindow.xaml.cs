@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
+using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WPFChat
 {
@@ -30,7 +20,7 @@ namespace WPFChat
         public MainWindow()
         {
             InitializeComponent();
-            users = new ObservableCollection<Client> {};
+            users = new ObservableCollection<Client> { };
             Client_ListBox.ItemsSource = users;
             Client_ListBox.DisplayMemberPath = "Name";
 
@@ -65,6 +55,8 @@ namespace WPFChat
         private void SendMsg(string msg, Client cl)
         {
             string msg_en = $"{cl.Name}: {msg}";
+            byte[] buffer = Encoding.UTF8.GetBytes(msg_en);
+            ConnectWindow.SocClient.Send(buffer);
             Chat_ListBox.Items.Add(msg_en);
             MsgBox.Text = string.Empty;
         }
@@ -76,6 +68,8 @@ namespace WPFChat
         /// <param name="e"></param>
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
+            ConnectWindow.SocClient.Close();
+            //ConnectWindow.SocClient.Disconnect(чездесь??);
             var Cnct = new ConnectWindow();
             Cnct.Show();
             Chat.Close();
@@ -88,9 +82,9 @@ namespace WPFChat
         /// <param name="e"></param>
         private void MsgBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if(Key.Enter == e.Key)
+            if (Key.Enter == e.Key)
             {
-                Enter_Click(sender,e);
+                Enter_Click(sender, e);
             }
         }
 

@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 WPFChat/obj/Debug/
+WPFChat/.vs/WPFChat/v16
