@@ -60,9 +60,9 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="Name_TextBox" HorizontalAlignment="Left" Height="35" Margin="112,9,0,0" TextWrapping="Wrap"
-                 Text="Name" VerticalAlignment="Top" Width="175" AutoWordSelection="True" MaxLines="1" MaxLength="8" FontSize="14"
+                 Text="Name" VerticalAlignment="Top" Width="175" MaxLines="1" MaxLength="8" FontSize="14"
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                 Background="#FF101032" Foreground="White" SelectionBrush="{x:Null}" BorderBrush="#FF27354D" TextAlignment="Center"/>
+                 Background="#FF101032" Foreground="White" SelectionBrush="{x:Null}" BorderBrush="#FF27354D" TextAlignment="Center" AutoWordSelection="True"/>
         <TextBox x:Name="Ip_Port_TextBox" HorizontalAlignment="Left" Height="35" Margin="112,59,0,0" TextWrapping="Wrap"
                  Text="127.0.0.1:8080" VerticalAlignment="Top" Width="175" AutoWordSelection="True" MaxLines="1" FontSize="14"
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"

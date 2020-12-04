@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFChat"
         mc:Ignorable="d"
-        Title="Chat" Height="450" Width="800" Icon="Resources/icon.png">
+        Title="Chat" Height="450" Width="800" Icon="Resources/icon.png" ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -68,7 +68,7 @@
                  VerticalAlignment="Top" Width="606" FontSize="14" Grid.ColumnSpan="2" SpellCheck.IsEnabled="True"
                  VerticalContentAlignment="Center"
                  KeyDown="MsgBox_KeyDown" Background="#FF101032" Foreground="White" BorderBrush="{x:Null}"/>
-        <Button x:Name="Disconnect" Content="Disconnect"
+        <Button x:Name="DisconnectBT" Content="Disconnect"
                 Grid.Column="1" HorizontalAlignment="Left" Margin="96,233,0,0" 
                 VerticalAlignment="Top" Width="100"
                 Click="Disconnect_Click" 

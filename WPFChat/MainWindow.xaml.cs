@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -31,7 +32,22 @@ namespace WPFChat
             #endregion
 
             users.Add(ConnectWindow.Me);
-            Gachi();
+            //Gachi();
+
+            try
+            {
+                Thread receiveThread = new Thread(new ThreadStart(GetMsg));
+                receiveThread.Start(); //старт потока
+
+            }
+            catch (Exception ex)
+            {
+                Chat_ListBox.Items.Add(ex.Message);
+            }
+            //finally
+            //{
+            //    Disconnect();
+            //}
         }
 
         /// <summary>
@@ -48,17 +64,47 @@ namespace WPFChat
         }
 
         /// <summary>
+        /// Метод принятия сообщений
+        /// </summary>
+        private void GetMsg()
+        {
+            while (true)
+            {
+                try
+                {
+                    byte[] data = new byte[64]; // буфер для получаемых данных
+                    StringBuilder builder = new StringBuilder();
+                    int bytes = 0;
+                    do
+                    {
+                        bytes = ConnectWindow.stream.Read(data, 0, data.Length);
+                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                    }
+                    while (ConnectWindow.stream.DataAvailable);
+
+                    string message = builder.ToString();
+                    Chat_ListBox.Items.Add(message);
+                }
+                catch (Exception ex)
+                {
+                    //Chat_ListBox.Items.Add("Подключение прервано!");
+                    //Chat_ListBox.Items.Add(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
         /// Метод отправки сообщения
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="cl"></param>
         private void SendMsg(string msg, Client cl)
         {
-            string msg_en = $"{cl.Name}: {msg}";
-            byte[] buffer = Encoding.UTF8.GetBytes(msg_en);
-            ConnectWindow.SocClient.Send(buffer);
-            Chat_ListBox.Items.Add(msg_en);
+            //Chat_ListBox.Items.Add(msg_en);
             MsgBox.Text = string.Empty;
+
+            byte[] data = Encoding.Unicode.GetBytes(msg);
+            ConnectWindow.stream.Write(data, 0, data.Length);
         }
 
         /// <summary>
@@ -68,8 +114,7 @@ namespace WPFChat
         /// <param name="e"></param>
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            ConnectWindow.SocClient.Close();
-            //ConnectWindow.SocClient.Disconnect(чездесь??);
+            Disconnect();
             var Cnct = new ConnectWindow();
             Cnct.Show();
             Chat.Close();
@@ -107,6 +152,14 @@ namespace WPFChat
                 users.Add(ricardo);
                 bot_flag = true;
             }
+        }
+
+        static void Disconnect()
+        {
+            if (ConnectWindow.stream != null)
+                ConnectWindow.stream.Close();//отключение потока
+            if (ConnectWindow.TCPclient != null)
+                ConnectWindow.TCPclient.Close();//отключение клиента
         }
     }
 }
