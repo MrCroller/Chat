@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace WPFChat
 {
@@ -44,10 +45,10 @@ namespace WPFChat
             {
                 Chat_ListBox.Items.Add(ex.Message);
             }
-            //finally
-            //{
-            //    Disconnect();
-            //}
+            finally
+            {
+                //Disconnect();
+            }
         }
 
         /// <summary>
@@ -66,10 +67,10 @@ namespace WPFChat
         /// <summary>
         /// Метод принятия сообщений
         /// </summary>
-        private void GetMsg()
+        public void GetMsg()
         {
             while (true)
-            {
+            { 
                 try
                 {
                     byte[] data = new byte[64]; // буфер для получаемых данных
@@ -81,16 +82,15 @@ namespace WPFChat
                         builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                     }
                     while (ConnectWindow.stream.DataAvailable);
-
                     string message = builder.ToString();
-                    Chat_ListBox.Items.Add(message);
+                    System.Windows.Application.Current.Dispatcher.Invoke(() => Chat_ListBox.Items.Add(message));
                 }
                 catch (Exception ex)
                 {
-                    //Chat_ListBox.Items.Add("Подключение прервано!");
-                    //Chat_ListBox.Items.Add(ex.Message);
+                    Chat_ListBox.Items.Add($"Подключение прервано!\n{ex.Message}");
                 }
             }
+
         }
 
         /// <summary>
@@ -154,12 +154,17 @@ namespace WPFChat
             }
         }
 
-        static void Disconnect()
+        protected internal void Disconnect()
         {
             if (ConnectWindow.stream != null)
                 ConnectWindow.stream.Close();//отключение потока
             if (ConnectWindow.TCPclient != null)
                 ConnectWindow.TCPclient.Close();//отключение клиента
+        }
+
+        private void Chat_Closed(object sender, EventArgs e)
+        {
+            Disconnect();
         }
     }
 }

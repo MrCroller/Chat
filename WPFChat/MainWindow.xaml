@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFChat"
         mc:Ignorable="d"
-        Title="Chat" Height="450" Width="800" Icon="Resources/icon.png" ResizeMode="NoResize">
+        Title="Chat" Height="450" Width="800" Icon="Resources/icon.png" ResizeMode="NoResize" Closed="Chat_Closed">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
