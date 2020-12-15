@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,13 +27,15 @@ namespace WPFChat
             Client_ListBox.ItemsSource = users;
             Client_ListBox.DisplayMemberPath = "Name";
 
-            #region Кожевенник
-            billy = new Client();
-            billy.Name = "Billy Herrington";
-            users.Add(billy);
-            #endregion
+            Chat_ListBox.Items.Add("Вы вошли в чат");
+            GetList();
 
-            users.Add(ConnectWindow.Me);
+            //#region Кожевенник
+            //billy = new Client("Billy Herrington");
+            //users.Add(billy);
+            //#endregion
+
+            //users.Add(ConnectWindow.Me);
             //Gachi();
 
             try
@@ -60,6 +63,7 @@ namespace WPFChat
         {
             if (MsgBox.Text != string.Empty)
             {
+                Chat_ListBox.Items.Add(MsgBox.Text);
                 SendMsg(MsgBox.Text, ConnectWindow.Me);
             }
         }
@@ -69,9 +73,9 @@ namespace WPFChat
         /// </summary>
         public void GetMsg()
         {
-            while (true)
-            { 
-                try
+            try
+            {
+                while (true)
                 {
                     byte[] data = new byte[64]; // буфер для получаемых данных
                     StringBuilder builder = new StringBuilder();
@@ -83,12 +87,13 @@ namespace WPFChat
                     }
                     while (ConnectWindow.stream.DataAvailable);
                     string message = builder.ToString();
+                    System.Windows.Application.Current.Dispatcher.Invoke(() => AddClient(message));
                     System.Windows.Application.Current.Dispatcher.Invoke(() => Chat_ListBox.Items.Add(message));
                 }
-                catch (Exception ex)
-                {
-                    Chat_ListBox.Items.Add($"Подключение прервано!\n{ex.Message}");
-                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Application.Current.Dispatcher.Invoke(() => Chat_ListBox.Items.Add($"Подключение прервано!\n{ex.Message}"));
             }
 
         }
@@ -152,6 +157,39 @@ namespace WPFChat
                 users.Add(ricardo);
                 bot_flag = true;
             }
+        }
+
+        /// <summary>
+        /// Метод получения списка клиентов при первом входе
+        /// </summary>
+        private void GetList()
+        {
+            byte[] data = new byte[64]; // буфер для получаемых данных
+            StringBuilder builder = new StringBuilder();
+            int bytes = 0;
+            do
+            {
+                bytes = ConnectWindow.stream.Read(data, 0, data.Length);
+                builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+            }
+            while (ConnectWindow.stream.DataAvailable);
+            string list = builder.ToString();
+
+            Regex reg = new Regex(@"(\w|\s){1,16}");//регулярка для имен пользавателей\
+            MatchCollection matchedClients = reg.Matches(list);
+            for (int i = 0; i < matchedClients.Count; i++)
+            {
+                var cl = new Client(matchedClients[i].Value);
+                users.Add(cl);
+            }
+        }
+
+        private void AddClient(string chek)
+        {
+            Regex reg = new Regex(@"^SERVER: (?<clientNAME>(\w|\s){1,16}).{12}");
+            var newclient = reg.Match(chek);
+            var cl = new Client(newclient.Groups["clientNAME"].Value);
+            users.Add(cl);
         }
 
         protected internal void Disconnect()

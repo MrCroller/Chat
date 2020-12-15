@@ -93,7 +93,7 @@ namespace WPFChat
                 TCPclient.Connect(host, port); //подключение клиента
                 stream = TCPclient.GetStream(); // получаем поток
 
-                byte[] data = Encoding.Unicode.GetBytes(Me.Name);
+                byte[] data = Encoding.Unicode.GetBytes(Me.Name); //Отправляем имя
                 stream.Write(data, 0, data.Length);
 
                 var Chat = new MainWindow();
