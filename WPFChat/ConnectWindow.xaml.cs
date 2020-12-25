@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -10,7 +11,8 @@ namespace WPFChat
     /// </summary>
     public partial class ConnectWindow : Window
     {
-        public static Socket SocClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        internal static TcpClient TCPclient;
+        internal static NetworkStream stream;
         public static Client Me = new Client();
         string host;
         string Cnsl;
@@ -85,10 +87,14 @@ namespace WPFChat
         /// </summary>
         private void ConnectAddress()
         {
+            TCPclient = new TcpClient();
             try
             {
-                ButtonConnect.IsEnabled = false;
-                SocClient.Connect(host,port);
+                TCPclient.Connect(host, port); //подключение клиента
+                stream = TCPclient.GetStream(); // получаем поток
+
+                byte[] data = Encoding.Unicode.GetBytes(Me.Name); //Отправляем имя
+                stream.Write(data, 0, data.Length);
 
                 var Chat = new MainWindow();
                 Chat.Show();
