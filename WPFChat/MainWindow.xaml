@@ -68,11 +68,11 @@
                  VerticalAlignment="Top" Width="606" FontSize="14" Grid.ColumnSpan="2" SpellCheck.IsEnabled="True"
                  VerticalContentAlignment="Center"
                  KeyDown="MsgBox_KeyDown" Background="#FF101032" Foreground="White" BorderBrush="{x:Null}"/>
-        <Button x:Name="DisconnectBT" Content="Disconnect"
+        <Button x:Name="DisconnectBT" Content="Сломать сервер"
                 Grid.Column="1" HorizontalAlignment="Left" Margin="96,233,0,0" 
                 VerticalAlignment="Top" Width="100"
                 Click="Disconnect_Click" 
-                Height="30" FontSize="16" Foreground="White" BorderBrush="{x:Null}" BorderThickness="1"/>
+                Height="30" Foreground="White" BorderBrush="{x:Null}" BorderThickness="1"/>
         <Button x:Name="Enter" Content="Enter"
             Grid.Column="1" HorizontalAlignment="Left" Margin="76,374,0,0" 
             VerticalAlignment="Top" Width="100"

@@ -2,37 +2,29 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace server
 {
     class server
     {
+        static ServerObject _server; // сервер
+        static Thread listenThread; // поток для прослушивания
+
         static void Main(string[] args)
         {
             Console.Title = "Server";
-            Socket SocServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("26.212.64.12"), 8080);
+
             try
             {
-                SocServer.Bind(ipPoint);
-                Console.WriteLine("server started...");
-                SocServer.Listen(5);
-                Socket client = SocServer.Accept();
-                Console.WriteLine("Новое подключение.");
-
-                while (true)
-                {
-                    byte[] buffer = new byte[1024];
-                    client.Receive(buffer);
-                    Console.WriteLine(Encoding.UTF8.GetString(buffer));
-
-                    System.Threading.Thread.Sleep(100);
-                }
+                _server = new ServerObject();
+                listenThread = new Thread(new ThreadStart(_server.Listen)); //запускается новый поток, который обращается к методу Listen() объекта ServerObject
+                listenThread.Start(); //старт потока
             }
             catch (Exception ex)
             {
+                _server.Disconnect();
                 Console.WriteLine(ex.Message);
-                Console.ReadLine();
             }
         }
     }

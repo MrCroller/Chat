@@ -94,6 +94,7 @@ namespace WPFChat
             catch (Exception ex)
             {
                 System.Windows.Application.Current.Dispatcher.Invoke(() => Chat_ListBox.Items.Add($"Подключение прервано!\n{ex.Message}"));
+                Disconnect();
             }
 
         }
@@ -112,18 +113,6 @@ namespace WPFChat
             ConnectWindow.stream.Write(data, 0, data.Length);
         }
 
-        /// <summary>
-        /// Метод по нажатию кнопки отключиться
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Disconnect_Click(object sender, RoutedEventArgs e)
-        {
-            Disconnect();
-            var Cnct = new ConnectWindow();
-            Cnct.Show();
-            Chat.Close();
-        }
 
         /// <summary>
         /// Отправка по нажатию клавиши Enter
@@ -184,6 +173,10 @@ namespace WPFChat
             }
         }
 
+        /// <summary>
+        /// Метод вычленения имени клиента и добавление его в список
+        /// </summary>
+        /// <param name="chek"></param>
         private void AddClient(string chek)
         {
             Regex reg = new Regex(@"^SERVER: (?<clientNAME>(\w|\s){1,16}).{12}");
@@ -195,9 +188,25 @@ namespace WPFChat
         protected internal void Disconnect()
         {
             if (ConnectWindow.stream != null)
-                ConnectWindow.stream.Close();//отключение потока
+                ConnectWindow.stream.Close(); //отключение потока
             if (ConnectWindow.TCPclient != null)
+            {
                 ConnectWindow.TCPclient.Close();//отключение клиента
+                ConnectWindow.TCPclient.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Метод по нажатию кнопки отключиться
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Disconnect_Click(object sender, RoutedEventArgs e)
+        {
+            Disconnect();
+            var Cnct = new ConnectWindow();
+            Cnct.Show();
+            Chat.Close();
         }
 
         private void Chat_Closed(object sender, EventArgs e)
