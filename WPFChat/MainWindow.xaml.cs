@@ -17,8 +17,6 @@ namespace WPFChat
     public partial class MainWindow : Window
     {
         public ObservableCollection<Client> users;
-        private bool bot_flag = false;
-        Client billy;
 
         public MainWindow()
         {
@@ -29,14 +27,6 @@ namespace WPFChat
 
             Chat_ListBox.Items.Add("Вы вошли в чат");
             GetList();
-
-            //#region Кожевенник
-            //billy = new Client("Billy Herrington");
-            //users.Add(billy);
-            //#endregion
-
-            //users.Add(ConnectWindow.Me);
-            //Gachi();
 
             try
             {
@@ -124,27 +114,6 @@ namespace WPFChat
             if (Key.Enter == e.Key)
             {
                 Enter_Click(sender, e);
-            }
-        }
-
-
-        /// <summary>
-        /// Метод гачи
-        /// </summary>
-        private async void Gachi()
-        {
-            if (!bot_flag)
-            {
-                await Task.Delay(5000);
-                Chat_ListBox.Items.Add($"{billy.Name}: Друг. Кажется ты ошибся дверью");
-                await Task.Delay(4000);
-                Chat_ListBox.Items.Add($"{billy.Name}: Клуб кожевенного ремесла в конце кода");
-                await Task.Delay(4000);
-                var ricardo = new Client();
-                ricardo.Name = "Ricardo Milos";
-                Chat_ListBox.Items.Add($"{ricardo.Name} подключился");
-                users.Add(ricardo);
-                bot_flag = true;
             }
         }
 

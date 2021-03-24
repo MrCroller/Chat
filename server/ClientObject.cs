@@ -11,6 +11,7 @@ namespace server
         protected internal NetworkStream Stream { get; private set; } // свойство Stream, хранящее поток для взаимодействия с клиентом
         internal string userName { get; private set; }
         TcpClient client;
+        bool human = true;
         ServerObject server; // объект сервера
 
         public ClientObject(TcpClient tcpClient, ServerObject serverObject)
@@ -22,54 +23,73 @@ namespace server
         }
 
         /// <summary>
+        /// Свойство для бота
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="serverObject"></param>
+        public ClientObject(string userName, TcpClient tcpClient, ServerObject serverObject)
+        {
+            human = false;
+            //Id = Guid.NewGuid().ToString();
+            Id = "bot";
+            client = tcpClient;
+            server = serverObject;
+            userName = this.userName;
+            serverObject.AddConnection(this);
+        }
+
+        /// <summary>
         /// Протокол для обмена сообщениями с клиентом
         /// </summary>
         public void Process()
         {
-            try
+            if (human)
             {
-                Stream = client.GetStream();
-                // получаем имя пользователя
-                string message = GetMessage();
-                userName = message;
-
-                byte[] data = Encoding.Unicode.GetBytes(server.ClListToString()); //Отправляем список клиентов на сервере
-                Stream.Write(data, 0, data.Length);
-
-                message = $"SERVER: {userName} вошел в чат";
-                // посылаем сообщение о входе в чат всем подключенным пользователям
-                server.BroadcastMessage(message, this.Id);
-                Console.WriteLine(message);
-                // в бесконечном цикле получаем сообщения от клиента
-                while (true)
+                try
                 {
-                    try
+                    Stream = client.GetStream();
+                    // получаем имя пользователя
+                    string message = GetMessage();
+                    userName = message;
+
+                    byte[] data = Encoding.Unicode.GetBytes(server.ClListToString()); //Отправляем список клиентов на сервере
+                    Stream.Write(data, 0, data.Length);
+
+                    message = $"SERVER: {userName} вошел в чат";
+                    // посылаем сообщение о входе в чат всем подключенным пользователям
+                    server.BroadcastMessage(message, this.Id);
+                    Console.WriteLine(message);
+                    // в бесконечном цикле получаем сообщения от клиента
+                    while (true)
                     {
-                        message = GetMessage();
-                        message = String.Format($"{userName}: {message}");
-                        Console.WriteLine(message);
-                        server.BroadcastMessage(message, this.Id);
-                    }
-                    catch
-                    {
-                        message = String.Format($"{userName}: покинул чат");
-                        //Console.WriteLine(message);
-                        server.BroadcastMessage(message, this.Id);
-                        server.RemoveConnection(this.Id);
-                        Close();
-                        break;
+                        try
+                        {
+                            message = GetMessage();
+                            message = String.Format($"{userName}: {message}");
+                            Console.WriteLine(message);
+                            server.BroadcastMessage(message, this.Id);
+                        }
+                        catch
+                        {
+                            message = String.Format($"{userName}: покинул чат");
+                            //Console.WriteLine(message);
+                            server.BroadcastMessage(message, this.Id);
+                            server.RemoveConnection(this.Id);
+                            Close();
+                            break;
+                        }
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                // в случае выхода из цикла закрываем ресурсы
-                server.RemoveConnection(this.Id);
-                Close();
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                finally
+                {
+                    // в случае выхода из цикла закрываем ресурсы
+                    server.RemoveConnection(this.Id);
+                    Close();
+                }
             }
         }
 

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace server
 {
@@ -13,6 +14,7 @@ namespace server
         static TcpListener tcpListener; // сервер для прослушивания
         List<ClientObject> clients = new List<ClientObject>(); // все клиенты храняться здесь(подключения)
         int port = 8080;
+        bool bot = true;
 
         /// <summary>
         /// Добавление клиента (подключения)
@@ -48,6 +50,8 @@ namespace server
                 {
                     TcpClient tcpClient = tcpListener.AcceptTcpClient();
 
+                    if (bot) Gachi(tcpClient); // Гачи тут
+
                     ClientObject clientObject = new ClientObject(tcpClient, this);
                     Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
                     clientThread.Start();
@@ -61,7 +65,7 @@ namespace server
         }
 
         /// <summary>
-        /// Трансляции сообщений всем клиентам
+        /// Трансляции сообщений всем клиентам (кроме отправляющего)
         /// </summary>
         /// <param name="message"></param>
         /// <param name="id"></param>
@@ -100,6 +104,26 @@ namespace server
             var buildSTR = new StringBuilder();
             for (int i = 0; i < clients.Count; i++) buildSTR.Append($"{clients[i].userName},");
             return buildSTR.ToString();
+        }
+
+        /// <summary>
+        /// Метод гачи
+        /// </summary>
+        protected internal async void Gachi(TcpClient tcpClient)
+        {
+            bot = false;
+            var billy = new ClientObject("Billy Herrington", tcpClient, this);
+
+            await Task.Delay(9000);
+            BroadcastMessage($"{billy.userName}: Друг. Кажется ты ошибся дверью", billy.Id);
+            await Task.Delay(4000);
+            BroadcastMessage($"{billy.userName}: Клуб кожевенного ремесла в конце кода", billy.Id);
+            await Task.Delay(4000);
+
+            var ricardo = new ClientObject("Ricardo Milos", tcpClient, this);
+            await Task.Delay(4000);
+            BroadcastMessage($"{ricardo.userName}: Доброе утро славяне!", ricardo.Id);
+            //Chat_ListBox.Items.Add($"{ricardo.Name} подключился");
         }
     }
 }

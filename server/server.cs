@@ -26,6 +26,6 @@ namespace server
                 _server.Disconnect();
                 Console.WriteLine(ex.Message);
             }
-        }
+        }     
     }
 }
