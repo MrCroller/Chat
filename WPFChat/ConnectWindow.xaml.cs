@@ -55,7 +55,7 @@ namespace WPFChat
                 MessageBox.Show("Шучу");
             }
             if (!flag_ad && ch == 6) MessageBox.Show("Все, я отстаю");
-            if (!flag_ad && ch == 11) MessageBox.Show("НУ пиздец какой то");
+            if (!flag_ad && ch == 11) MessageBox.Show("НУ пипец какой то");
 
             #endregion
 
