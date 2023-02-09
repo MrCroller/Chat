@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-
-namespace WPFChat
+﻿namespace WPFChat
 {
     /// <summary>
     /// Грустный клиент
@@ -12,6 +8,17 @@ namespace WPFChat
         public int ID { get; set; }
 
         public string Name { get; set; }
+        
+
+        public Client()
+        {
+            
+        }
+
+        public Client(string name)
+        {
+            Name = name;
+        }
 
     }
 }
